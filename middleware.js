@@ -1,0 +1,20 @@
+import { auth } from "@/auth";
+
+export const runtime = 'nodejs';
+
+export default auth((req) => {
+  const isLoggedIn = !!req.auth;
+  const isOnDashboard = req.nextUrl.pathname.startsWith("/dashboard");
+  const isOnAuth = req.nextUrl.pathname.startsWith("/login") || req.nextUrl.pathname.startsWith("/register");
+
+  if (isOnDashboard && !isLoggedIn) {
+    return Response.redirect(new URL("/login", req.nextUrl));
+  }
+  if (isOnAuth && isLoggedIn) {
+    return Response.redirect(new URL("/dashboard", req.nextUrl));
+  }
+});
+
+export const config = {
+  matcher: ["/dashboard/:path*", "/login", "/register"],
+};
