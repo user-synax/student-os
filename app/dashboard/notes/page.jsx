@@ -1,7 +1,7 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { Search, Plus, Pin, X, FileText, Pencil, Eye, Trash2, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -10,7 +10,7 @@ import { toast } from "sonner";
 import MDEditor from '@uiw/react-md-editor';
 import { useSearchParams } from 'next/navigation';
 
-export default function NotesPage() {
+function NotesPageContent() {
   const { data: session } = useSession();
   const searchParams = useSearchParams();
   
@@ -560,5 +560,13 @@ export default function NotesPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function NotesPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <NotesPageContent />
+    </Suspense>
   );
 }
