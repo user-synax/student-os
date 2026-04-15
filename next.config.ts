@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  serverExternalPackages: ['mongoose', '@uiw/react-md-editor'],
+  images: {
+    domains: ['raw.githubusercontent.com'],
+  },
 };
 
 export default nextConfig;
